@@ -27,13 +27,13 @@ body {
   position: relative;
 }
 
-.menu_sub {
+.menu_sub, .menu_sub__2 {
   display: none;
   position: absolute;
   padding: 10px 10px 0 10px;
 }
 
-.menu_sub .menu__item {
+.menu_sub .menu__item, .menu_sub__2 .menu__item  {
   margin-bottom: 10px;
 }
 

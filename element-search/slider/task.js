@@ -3,62 +3,60 @@ const slider = document.querySelectorAll('div.slider__item');
 const prev = document.querySelector('div.slider__arrow_prev');
 const next = document.querySelector('div.slider__arrow_next');
 
-const arr =  Array.from(slider);
-console.log(arr);
+const arrSlider =  Array.from(slider);
+console.log(arrSlider);
 
-const sliderDot = Array.from(document.querySelectorAll('div.slider__dot'));
-console.log(sliderDot);
+const arrDot = Array.from(document.querySelectorAll('div.slider__dot'));
+console.log(arrDot);
 
-const countArr = () => arr.forEach((item,idx) => {
-    if (item.className.includes('slider__item_active')) {
-        item.classList.remove('slider__item_active');
-        sliderDot[idx].classList.remove('slider__dot_active');
+func = () => {
+
+    let numb = 0;
+    next.onclick = () => {
+
+        const foundActive = arrSlider.findIndex((item) => item.className.includes('slider__item_active'));
+        numb = foundActive + 1;
+
+        funcActiv(numb);
+        
     }
-});
 
-let numb = 0;
-next.onclick = () => {
+    prev.onclick = () => {
+
+        const foundActive = arrSlider.findIndex((item) => item.className.includes('slider__item_active'));
+        numb = foundActive - 1;
+
+        funcActiv(numb);
     
-    countArr();
-
-    if (numb >= arr.length - 1) {
-       numb = 0; 
-    } else {
-        numb = numb + 1;
     }
-    console.log(numb);
-    arr[numb].classList.add('slider__item_active'); 
-    sliderDot[numb].classList.add('slider__dot_active'); 
-}
 
-prev.onclick = () => {
-    
-    countArr();
-
-    if (numb === 0) {
-       numb = arr.length - 1; 
-    } else {
-        numb = numb - 1;
-    }
-    console.log(numb);
-    arr[numb].classList.add('slider__item_active');
-    sliderDot[numb].classList.add('slider__dot_active');
-}
-
-sliderDot.forEach((item, idx) => {
-    
-    item.onclick = () => {
-        const sliderDotActive = document.querySelector('div.slider__dot_active');
-        const sliderActive = document.querySelector('div.slider__item_active');
-
-        if (sliderDotActive) {
-            sliderDotActive.classList.remove('slider__dot_active'); 
-            sliderActive.classList.remove('slider__item_active');
+    arrDot.forEach((item,idx) => {
+        
+        item.onclick = () => {
+            
+            funcActiv(idx);
+            
         }
+    });
+};
+func();
 
-        item.classList.add('slider__dot_active');
-        arr[idx].classList.add('slider__item_active');
-         
+function funcActiv(n) {
+    let val = n;
+    const active = arrSlider.findIndex((item) => item.className.includes('slider__item_active'));
+        
+    arrSlider[active].classList.remove('slider__item_active');
+    arrDot[active].classList.remove('slider__dot_active');
+
+    if (n < 0) {
+        val = arrSlider.length-1
     }
-});
+
+    if (n > arrSlider.length-1) {
+        val = 0;
+    }
+
+    arrSlider[val].classList.add('slider__item_active');
+    arrDot[val].classList.add('slider__dot_active');
+}
 
