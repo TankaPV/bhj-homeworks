@@ -1,11 +1,6 @@
-const menuMain = document.querySelectorAll('ul.menu_main');
-const menuMain_1 = menuMain[0];
-const menuMain_2 = menuMain[1];
-const menuLink_1 = menuMain_1.querySelectorAll('a.menu__link');
-const menuLink_2 = menuMain_2.querySelectorAll('a.menu__link');
+const menuMain = Array.from(document.querySelectorAll('ul.menu_main'));
 
-const arr1 = Array.from(menuLink_1);
-const arr2 = Array.from(menuLink_2);
+//console.log(menuMain);
 
 const activ = (element, act) => {
 
@@ -23,55 +18,50 @@ const activ = (element, act) => {
     
 }
 
-arr1.forEach((item) => {
-
-  item.onclick = () => {
-
-    const menuItem = item.closest('li.menu__item');
-    const menuActiv = menuMain_1.querySelector('ul.menu_active');
-    
-    if (menuItem.querySelector('ul.menu.menu_sub')) {
-      
-      activ(menuItem, menuActiv);
-      return false;
-    }
-
-    if (menuActiv) {
-      menuActiv.classList.remove('menu_active');
-    }
-
-  }
-    
-});
-
-arr2.forEach((item) => {
-
-  item.onclick = () => {
-
-    const menuItem = item.closest('li.menu__item');
-    const menuActiv = menuMain_2.querySelector('ul.menu_active');
-    
-    if (menuItem.querySelector('ul.menu.menu_sub')) {
-
-      activ(menuItem, menuActiv);
-      return false;
-    }
-
-    if (menuActiv) {
-      menuActiv.classList.remove('menu_active');
-   }   
-  }
+menuMain.forEach((item) => {
   
+  //console.log(item);
+
+  const menuLink = Array.from(item.querySelectorAll('a.menu__link'));
+
+  //console.log(menuLink);
+
+  menuLink.forEach((item1) => {
+
+    //console.log(item1);
+
+    item1.onclick = () => {
+
+      const menuItem = item1.closest('li.menu__item');
+      
+      const menuActiv = item.querySelector('ul.menu_active');
+
+      //console.log(menuActiv);
+      
+      if (menuItem.querySelector('ul.menu.menu_sub')) {
+        
+        activ(menuItem, menuActiv);
+        return false;
+      }
+  
+      if (menuActiv) {
+        menuActiv.classList.remove('menu_active');
+      }
+  
+    }
+
+  });
+    
 });
 
 document.onclick = (e) => {
-  
-  if (e.target.className !== 'menu__link' & menuMain_1.querySelector('ul.menu_active') !== null) {
-    menuMain_1.querySelector('ul.menu_active').classList.remove('menu_active');
-  }
  
-  if (e.target.className !== 'menu__link' & menuMain_2.querySelector('ul.menu_active') !== null) {
-    menuMain_2.querySelector('ul.menu_active').classList.remove('menu_active');
+  if (e.target.className !== 'menu__link') {
+    menuMain.forEach((item) => {
+      if (item.querySelector('ul.menu_active') !== null) {
+        item.querySelector('ul.menu_active').classList.remove('menu_active');
+      }
+    });
   }
 
 }
