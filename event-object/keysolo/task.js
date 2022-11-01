@@ -14,6 +14,7 @@ class Game {
     this.setNewWord();
     this.winsElement.textContent = 0;
     this.lossElement.textContent = 0;
+    
   }
 
   registerEvents() {
@@ -24,6 +25,15 @@ class Game {
       В случае правильного ввода слова вызываем this.success()
       При неправильном вводе символа - this.fail();
      */
+
+    document.addEventListener('keydown', (e) => {
+      console.log(e.key);
+      if (e.key === this.currentSymbol.textContent) {
+        this.success();
+      } else {
+        this.fail();
+      } 
+    });  
   }
 
   success() {
@@ -32,12 +42,18 @@ class Game {
     if (this.currentSymbol !== null) {
       return;
     }
+    const timeEnd = Date.now();
+    const delta = timeEnd - this.timeStart;
 
-    if (++this.winsElement.textContent === 10) {
-      alert('Победа!');
-      this.reset();
+    if (delta <= this.time) {
+      if (++this.winsElement.textContent === 10) {
+        alert('Победа!');
+        this.reset();
+      }
+      this.setNewWord();
+    } else {
+      this.fail();
     }
-    this.setNewWord();
   }
 
   fail() {
@@ -50,6 +66,17 @@ class Game {
 
   setNewWord() {
     const word = this.getWord();
+    this.timer = this.container.querySelector('.timer');
+    this.timer.textContent = word.length;
+    this.time = word.length*1000;
+    this.timeStart = Date.now();
+        
+    const timerID = setInterval(() => {
+      this.timer.textContent = Number(this.timer.textContent) - 1;
+      if (Number(this.timer.textContent) < 1) {
+        clearInterval(timerID);
+      }  
+    },1000);
 
     this.renderWord(word);
   }
