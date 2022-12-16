@@ -4,7 +4,8 @@ document.addEventListener('change', (e) => {
     if (ulTotal !== null) {
         const inputAll = ulTotal.querySelectorAll('input');
         for (let i = 0; i < inputAll.length; i++) {
-            inputAll[i].checked = check.checked; 
+            inputAll[i].checked = check.checked;
+            inputAll[i].indeterminate = false; 
         }
     }
     const parent = check.closest('ul').parentElement;

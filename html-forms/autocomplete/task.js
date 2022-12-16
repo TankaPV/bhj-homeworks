@@ -81,22 +81,18 @@ class Autocomplete {
         value: 'Содержимое атрибута value'
       }
     */
-   
-    const arr = [];
-    for (let i = 0; i < this.input.length; i++) {
-      if (this.searchInput.value === '') {
-        const {text, value} = this.input[i];
-        arr.push({text, value});
-      } else {
-        let status = this.input[i].text.includes(this.searchInput.value);
-        if (!status) {
-          const {text, value} = this.input[i];
-          arr.push({text, value});
-        }
-      }
-    }
-   
-   return arr;  
+    const arr = [];  
+    
+    for (let i = 0; i < this.input.options.length; i++) {
+      const {text:textInput, value} = this.input.options[i];
+      console.log(textInput);
+      if (textInput.includes(text)) {
+        arr.push({text:textInput, value});
+      }   
+    }  
+    console.log(arr);   
+    return arr;
+      
     // [
     //   {
     //     text: 'Чубакка',
