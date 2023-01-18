@@ -1,11 +1,6 @@
 const taskInput = document.getElementById('task__input');
-console.log(taskInput);
-
 const tasksList = document.getElementById('tasks__list');
-console.log(tasksList);
-
 const tasksAdd = document.getElementById('tasks__add');
-console.log(tasksAdd);
 
 function appendElement(value) {
     const div = document.createElement('div');        
@@ -19,29 +14,15 @@ function appendElement(value) {
 }
 
 function updateStorage() {
-    const data = [];
-    for (let element of tasksList.querySelectorAll('.task')) {
-      data.push(element.querySelector('.task__title').textContent);
-    }
+    const data =Array.from(tasksList.querySelectorAll('.task')).map((item) => item.querySelector('.task__title').textContent); 
     localStorage.setItem('key', JSON.stringify(data));
 }
 
-document.addEventListener('keydown', (e) => {
-    if (e.code === 'Enter'|| e.code === 'NumpadEnter') {
-        if (taskInput.value !== '') {
-            appendElement(taskInput.value);
-            taskInput.value = '';
-        }
-    }
-});
-
 tasksAdd.addEventListener('click', (e) => {
     e.preventDefault();
-    
-    if (taskInput.value !== '') {
+    if (taskInput.value.trim()) {
         appendElement(taskInput.value);
         updateStorage();
-        console.log(localStorage.getItem('key'));
         taskInput.value = '';
     }    
 });
@@ -63,6 +44,10 @@ tasksList.addEventListener('click', (e) => {
         if (e.target === remove) {
             element.remove();
             updateStorage();
+            const emptyArr = JSON.parse(localStorage.getItem('key'));
+            if (!emptyArr.length) {
+                localStorage.clear();
+            }
         }
     });
 });

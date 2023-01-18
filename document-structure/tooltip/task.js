@@ -1,16 +1,12 @@
 const hasTooltip = Array.from(document.getElementsByClassName('has-tooltip'));
-console.log(hasTooltip);
-
 
 const div = document.createElement('div');
 div.className = 'tooltip';
 div.dataset.position = 'bottom';
    
-let tooltipActive;
-console.log(div);
-let timerID;
+let indexNow = null;
 
-hasTooltip.forEach(element => {
+hasTooltip.forEach((element, idx) => {
     element.addEventListener('click',(e) => {
         e.preventDefault();
         const left = e.target.getBoundingClientRect().left;
@@ -36,14 +32,18 @@ hasTooltip.forEach(element => {
         }
         
         e.target.after(div);
-
-        div.classList.add('tooltip_active');
-
-        clearTimeout(timerID);
-        timerID = setTimeout(() => {
-            div.classList.remove('tooltip_active');
-        }, 3000);
         
+        if (indexNow === null) {
+            indexNow = idx;
+            div.classList.add('tooltip_active');
+            return;
+        }
+        if (indexNow === idx) {
+            div.classList.toggle('tooltip_active');
+        } else {
+            indexNow = idx;
+            div.classList.add('tooltip_active');
+        }
     });
 });
 
