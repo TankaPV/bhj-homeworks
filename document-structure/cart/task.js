@@ -14,7 +14,7 @@ for (let element of prodact) {
     quantityControls.addEventListener('click', (e) => {
         e.preventDefault();
         if (e.target === quantityControlDec) {
-            if (Number(quantityValue.textContent) === 0) {
+            if (Number(quantityValue.textContent) === 1) {
                 return;
             }
             quantityValue.textContent = Number(quantityValue.textContent) - 1;
