@@ -9,23 +9,24 @@ const submit = signinForm.addEventListener('submit', (e) => {
     const formData = new FormData(signinForm);
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://students.netoservices.ru/nestjs-backend/auth');    
+    xhr.responseType = 'json';
     xhr.send(formData);
     signinForm.reset();
 
     xhr.addEventListener('load', () => {
-        if (xhr.status === 201 && xhr.readyState === xhr.DONE) {
-            const response = JSON.parse(xhr.response); 
-            if (response.success) {
-                welcomeActive.classList.add('welcome_active');
-                signin.classList.remove('signin_active');
-                exit.classList.add('exit_active');
-                userId.textContent = response.user_id;
-                localStorage.id = response.user_id;
-            } else {
-                alert('Неверный логин/пароль');
-            }
-        } else {
+        if (xhr.status !== 201) {
             alert(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+            return;
+        }     
+        const response = xhr.response;
+        if (response.success) {
+            welcomeActive.classList.add('welcome_active');
+            signin.classList.remove('signin_active');
+            exit.classList.add('exit_active');
+            userId.textContent = response.user_id;
+            localStorage.id = response.user_id;
+        } else {
+            alert('Неверный логин/пароль');
         }
     });
 });

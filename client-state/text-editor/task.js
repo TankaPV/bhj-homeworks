@@ -4,17 +4,15 @@ const button = document.getElementById('button');
 editor.addEventListener('input', () => {
     localStorage.editor = editor.value;
     if (!editor.value.trim()) {
-        localStorage.clear();
+        localStorage.removeItem('editor');
     }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.editor) {
-        editor.value = localStorage.editor;
-    }    
+    editor.value = localStorage.getItem('editor');
 });
 
 button.addEventListener('click', () => {
     editor.value = '';
-    localStorage.clear();
+    localStorage.removeItem('editor');
 });
