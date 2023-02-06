@@ -13,18 +13,22 @@ form.addEventListener('submit', (e) => {
         }
     }
     
-    xhr.upload.onloadstart = () => {
-        progress.value = 0.25;
+    xhr.upload.onprogress = (event) => { 
+        progress.value = event.loaded / event.total; 
     }
-    xhr.upload.onprogress = () => {
-        progress.value = 0.5;
-    }
-    xhr.upload.onload = () => {
-        progress.value = 0.75;
-    }
-    xhr.upload.onloadend = () => {
-        progress.value = 1; 
-    }
+    
+    // xhr.upload.onloadstart = () => {
+    //     progress.value = 0.25;
+    // }
+    // xhr.upload.onprogress = () => {
+    //     progress.value = 0.5;
+    // }
+    // xhr.upload.onload = () => {
+    //     progress.value = 0.75;
+    // }
+    // xhr.upload.onloadend = () => {
+    //     progress.value = 1; 
+    // }
     xhr.open('POST', 'https://students.netoservices.ru/nestjs-backend/upload');
     xhr.send(formData);
 });
